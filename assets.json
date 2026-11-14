@@ -1,0 +1,50 @@
+{
+  "origin": "https://vestigia.dc-schwartzman.workers.dev/",
+  "files": [
+    {
+      "path": "api/shared-media/scans/lascaux/shaft-v1.glb",
+      "bytes": 2273540,
+      "sha256": "b321ecbcf4310ff44f179f3556b40435fafddae1df513df701525a920f4cb4d2"
+    },
+    {
+      "path": "api/shared-media/scans/lascaux/cave-v1.glb",
+      "bytes": 68559248,
+      "sha256": "fdb606a794e9b2cb0401c497ffb3913dd01eaf2beaae2ffaa42e47ea74bafd16"
+    },
+    {
+      "path": "api/shared-media/scans/chauvet/horses-fresco-v1.glb",
+      "bytes": 15289648,
+      "sha256": "8e53ac8d6c361f76dee847411e8d219506460aa98e9286b6644b33c6add1c783"
+    },
+    {
+      "path": "lascaux-assets/pilot-lamp-waveforms.json",
+      "bytes": 1556419,
+      "sha256": "a43e1ff747c7cf08294f94454176deab1b567e18ffc2310b8f6025c8ad02fc11"
+    },
+    {
+      "path": "lascaux-assets/pilot-fire-waveforms.json",
+      "bytes": 1696135,
+      "sha256": "52f2dd220a5444c3c613835f241eeb2683592a05ca1bdf12920bac6b80d6e815"
+    },
+    {
+      "path": "lascaux-assets/shaft-poster.webp",
+      "bytes": 151820,
+      "sha256": "dffba8627e42f84a2c4d3cf3f63a73f9d53a2a5785a87d92b0dcbb495ff72d4d"
+    },
+    {
+      "path": "lascaux-assets/paleoflicker-sccs-poster.webp",
+      "bytes": 455294,
+      "sha256": "98b45408ecea0c5c6a1a03143923898b003b3918805feb32b7d16c3c2bc5f384"
+    },
+    {
+      "path": "lascaux-assets/paleoflicker-sccs-poster.pdf",
+      "bytes": 5837509,
+      "sha256": "4a4939455a5503d03a6686b94d978b06b668d2f2aee965b03e8fbd3d5f2e6d23"
+    },
+    {
+      "path": "chauvet-assets/horses-fresco.webp",
+      "bytes": 65364,
+      "sha256": "e47513e454adfa29899ec4f94681e9c99f413988a8195df97420ef23ef3c7dae"
+    }
+  ]
+}

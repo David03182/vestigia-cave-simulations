@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+public/api/
+public/*-assets/viewer.bundle.js*
+public/lascaux-assets/pilot-*-waveforms.json
+public/lascaux-assets/shaft-poster.webp
+public/lascaux-assets/paleoflicker-sccs-poster.*
+public/chauvet-assets/horses-fresco.webp
+*.download
