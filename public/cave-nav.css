@@ -1,0 +1,34 @@
+.cave-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.cave-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cave-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 12px;
+  border: 1px solid #586350;
+  border-radius: 5px;
+  color: #edece5;
+  text-decoration: none;
+}
+
+.cave-nav a:hover {
+  background: #262d25;
+}
+
+.cave-nav a[aria-current="page"] {
+  background: #dbbd98;
+  border-color: #dbbd98;
+  color: #231c14;
+}
