@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b0a">
+<title>Chauvet by lamplight | Vestigia</title>
+<meta name="description" content="Explore the Chauvet Horses Fresco under a movable lamp driven by the PaleoFlicker recording.">
+<link rel="canonical" href="https://vestigia.dc-schwartzman.workers.dev/chauvet/">
+<script>if (location.protocol === 'file:') location.replace(document.querySelector('link[rel=canonical]').href);</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/cave-nav.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vestigia">
+<meta property="og:title" content="Chauvet by lamplight">
+<meta property="og:description" content="Explore the Chauvet Horses Fresco under a movable lamp driven by the PaleoFlicker recording.">
+<meta property="og:url" content="https://vestigia.dc-schwartzman.workers.dev/chauvet/">
+<meta property="og:image" content="https://vestigia.dc-schwartzman.workers.dev/chauvet-assets/horses-fresco.webp?v=2">
+<meta property="og:image:alt" content="The painted walls of the Horses Fresco in the Hillaire Chamber at Chauvet.">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{color-scheme:dark;background:#080b0a;color:#e6e6de;font:16px/1.5 Inter,system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0}a{color:#e1ad80;text-underline-offset:.18em}p{margin:0}
+.shell{max-width:1520px;margin:auto;padding:0 clamp(14px,3vw,44px)}
+.masthead{border-bottom:1px solid #303731;padding:10px 0}
+.brand{font:600 1.2rem "Cormorant Garamond",Georgia,serif;letter-spacing:.17em;text-decoration:none;color:#e6e6de}
+.intro{padding:20px 0 14px}.eyebrow{color:#a6b4a1;letter-spacing:.14em;text-transform:uppercase;font-size:.75rem}
+h1{font:500 clamp(2.3rem,5vw,4.1rem)/1.02 "Cormorant Garamond",Georgia,serif;margin:4px 0 8px}
+.intro p:last-child{color:#cfd5ca;max-width:68ch}
+.viewer{border:1px solid #343c32;border-radius:8px;overflow:hidden;margin-bottom:18px;background:#121711}
+.view-bar{display:flex;align-items:center;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;padding:9px 12px}
+#description{font-size:.86rem;color:#cfd5ca}.toolbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+button,select{font:inherit;color:#edece5;background:#262d25;border:1px solid #586350;border-radius:5px;padding:7px 11px;cursor:pointer}
+button[aria-pressed=true]:not(.light-marker){background:#dbbd98;color:#231c14;border-color:#dbbd98}
+.light-marker:focus-visible{outline:none}.light-marker:focus-visible .lamp-number{outline:2px solid #e5c79c;outline-offset:3px}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #e5c79c;outline-offset:3px}
+button:disabled,select:disabled{opacity:.55;cursor:default}
+#stage{position:relative;overflow:hidden;background:#181b19;height:clamp(350px,53vh,690px)}
+#stage canvas{display:block;position:absolute;inset:0;touch-action:none;cursor:grab}
+#stage canvas:active{cursor:grabbing}.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#stage[data-active] .poster{display:none}
+#toggle-fullscreen{position:absolute;z-index:3;right:12px;bottom:12px;min-height:44px;align-items:center;gap:7px;background:#111611ed}
+#toggle-fullscreen:not([hidden]){display:flex}
+#toggle-fullscreen:hover{background:#30382d}
+#toggle-fullscreen svg{width:18px;height:18px;flex:none}
+#toggle-fullscreen:not([hidden]) ~ #status{max-width:calc(100% - 166px)}
+#status,.no-script{position:absolute;z-index:2;bottom:12px;left:12px;max-width:calc(100% - 24px);padding:6px 10px;background:#080b0ae8;border-radius:4px;color:#e6e6de}
+#stage[data-loading] #status{display:flex;align-items:center;gap:10px;top:50%;left:50%;bottom:auto;transform:translate(-50%,-50%);width:max-content;max-width:calc(100% - 24px);padding:10px 14px;border:1px solid #586350}
+#status .loading-hourglass{display:none}
+#stage[data-loading] #status .loading-hourglass{display:block;width:26px;height:26px;flex:none;color:#dbbd98}
+#stage[data-loading] #status{z-index:5;margin:0;pointer-events:none}
+
+#status:has(#status-message:empty),#cave-controls[hidden],#place-lamp[hidden],#shaft-controls[hidden],.light-marker[hidden]{display:none}
+#shaft-controls{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px 22px;padding:12px;border-top:1px solid #343c32}
+#shaft-controls label,#shaft-controls select{font-size:.88rem}
+#shaft-controls input[type=range]{width:100%;margin:0;accent-color:#dbbd98;min-height:25px}
+.lamp-reading{margin:5px 0 0;display:flex;justify-content:space-between;gap:8px;color:#e8d4bc;font-variant-numeric:tabular-nums}
+.frequency-control{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 10px;margin-top:5px}
+.frequency-control label{display:flex;justify-content:space-between;gap:6px}
+.frequency-control button{grid-column:2;grid-row:1/span 2;font-size:.82rem}
+#cave-controls{padding:0 12px 9px;color:#cfd5ca;font-size:.86rem}
+#cave-controls select{margin:0 7px 0 6px}
+#placement-note:empty{display:none}
+#stage.placing-lamp canvas{cursor:crosshair}
+#stage.placing-lamp .light-marker{pointer-events:none}
+.lamp-position{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 10px}
+.lamp-position label{display:flex;flex-wrap:wrap;justify-content:space-between;gap:0 4px}
+.lamp-position output,.lamp-help,.view-help{color:#c4ccbd;font-size:.8rem;font-variant-numeric:tabular-nums}
+.lamp-actions{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.lamp-actions button{font-size:.83rem;padding:5px 8px}
+.lamp-jog{display:flex;flex-wrap:wrap;gap:4px}
+.lamp-jog button{font-size:.9rem;min-width:36px;padding:4px 7px;touch-action:none}
+#lamp-movement-note:empty{display:none}
+.stage-notes{position:absolute;z-index:3;top:12px;left:12px;right:12px;pointer-events:none}
+.stage-notes p{width:fit-content;max-width:100%;margin:0 0 4px;padding:5px 8px;background:#080b0ae8;border-radius:4px}
+#lamp-navigation{padding:0 12px 9px}
+#lamp-navigation .lamp-help{margin-top:4px}
+#lamp-context-menu{position:absolute;z-index:5;max-width:calc(100% - 12px);padding:4px;background:#171c16;border:1px solid #586350;border-radius:6px;box-shadow:0 5px 16px #0008}
+#lamp-context-menu button{width:100%;text-align:left;min-height:40px}
+#lamp-context-note{padding:2px 6px;color:#cfd5ca;font-size:.8rem}
+#lamp-context-note:empty{display:none}
+.light-marker{position:absolute;z-index:1;transform:translate(-50%,-50%);width:var(--lamp-hit-size,44px);height:var(--lamp-hit-size,44px);padding:0;border:0;background:transparent;touch-action:none;cursor:move;color:#ffe0a4}
+.light-marker[data-overview]::after{content:"";position:absolute;top:50%;left:50%;width:7px;height:7px;transform:translate(-50%,-50%) rotate(45deg);background:#ffe0a4;box-shadow:0 0 0 1px #211805;pointer-events:none}
+.light-marker span{display:none}
+.light-marker[data-overview]:not([data-lamp-found]) span:not(.lamp-number){display:block;position:absolute;left:50%;top:calc(50% + 5px);transform:translateX(-50%);padding:3px 6px;border:1px solid #ffe0a4;border-radius:4px;background:#211805e8;font-size:.7rem;line-height:1.2}
+.view-help{padding:7px 12px;border-top:1px solid #343c32}
+.notes{max-width:78ch;padding:0 0 28px;color:#cfd5ca;font-size:.9rem}.notes p,.notes details{margin:0 0 9px}.notes summary{color:#eee3d5;cursor:pointer}.notes details p{margin-top:5px}
+@media(max-width:850px){#shaft-controls{grid-template-columns:1fr}}
+@media(max-width:620px){#stage{height:clamp(300px,53svh,430px)}button,select{min-height:44px}.view-bar{align-items:flex-start}.toolbar{gap:6px}.lamp-position label{display:block}.lamp-position output{display:block}}
+.viewer-expanded{overflow:hidden}
+.viewer-expanded :is(.masthead,.intro,.notes){visibility:hidden}
+.viewer-expanded #viewer{position:fixed;inset:0;z-index:4}
+:is(#viewer:fullscreen,.viewer-expanded #viewer){display:flex;flex-direction:column;width:100%;height:100%;height:100dvh;margin:0;border:0;border-radius:0;overflow:auto;overscroll-behavior:contain}
+:is(#viewer:fullscreen,.viewer-expanded #viewer)>*{flex-shrink:0}
+:is(#viewer:fullscreen,.viewer-expanded #viewer) #stage{flex:1 0 auto;height:auto;min-height:max(180px,60vh);min-height:max(180px,60dvh)}
+.lamp-comparison{min-width:0;margin:8px 12px;padding:10px 12px;border:1px solid #465043;border-radius:6px}
+.light-sources{margin:8px 12px;padding:10px 12px;border:1px solid #465043;border-radius:6px;min-width:0}.light-sources legend{padding:0 5px}
+#lamp-selectors{margin-top:8px}#lamp-selectors [aria-selected=true]{background:#dbbd98;color:#080b0a}.shadow-control{display:flex;align-items:center;gap:8px;margin-top:8px}
+.selected-lamp-heading{margin:10px 12px 0;font:600 1rem Inter,sans-serif}.light-marker .lamp-number{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);min-width:22px;height:22px;border-radius:50%;border:1px solid #dbbd98;background:#211805e8;color:#ffe0a4;line-height:20px;font-size:12px}.light-marker[data-selected] .lamp-number{background:#dbbd98;color:#080b0a}
+.recording-tabs{margin-bottom:8px}.recording-tabs button[aria-selected=true]{border-color:#dbbd98;background:#34271a}
+.lamp-comparison[hidden]{display:none}.lamp-comparison legend{padding:0 5px}.lamp-comparison .toolbar{flex-wrap:wrap}
+.lamp-comparison label{display:flex;justify-content:space-between;gap:12px;margin-top:8px}.lamp-comparison input{width:100%}
+</style>
+<script src="/chauvet-assets/viewer.bundle.js?v=multilamp1" defer></script>
+</head>
+<body>
+<header class="masthead">
+  <div class="shell cave-masthead">
+    <a class="brand" href="/" aria-label="Vestigia home">VESTIGIA</a>
+    <nav class="cave-nav" aria-label="Choose a cave">
+      <a href="/lascaux/">Lascaux</a>
+      <a href="/chauvet/" aria-current="page">Chauvet</a>
+      <a href="/chauvet/#bison">Eight-legged bison</a>
+    </nav>
+  </div>
+</header>
+<main class="shell">
+  <div class="intro">
+    <p class="eyebrow">Chauvet-Pont d’Arc · Ardèche, France</p>
+    <h1>Chauvet by lamplight</h1>
+    <p>Move the lamp across the Horses Fresco in Chauvet’s Hillaire Chamber. Switch between steady light and the flicker recorded from a replica Lascaux grease lamp in the <a href="/lascaux/#paleoflicker-poster">PaleoFlicker study</a>.</p>
+  </div>
+  <section id="viewer" class="viewer" aria-label="Interactive Chauvet Horses Fresco model">
+    <div class="view-bar">
+      <div class="toolbar" role="group" aria-label="Cave views">
+        <button type="button" data-view="shaft" aria-pressed="true">Hillaire Chamber</button>
+        <button type="button" data-view="bison" aria-pressed="false">Eight-legged bison</button>
+        <button type="button" id="reset" disabled>Reset view</button>
+        <button type="button" id="retry-scan" aria-describedby="status" hidden>Retry scan</button>
+      </div>
+      <p id="description">Horses Fresco · Hillaire Chamber</p>
+    </div>
+    <div id="cave-controls" hidden>
+      <label for="cave-location">Cave location</label>
+      <select id="cave-location">
+        <option value="overview">Overview</option>
+        <option value="axial">Axial Gallery</option>
+        <option value="hall">Hall of the Bulls</option>
+        <option value="nave">Nave</option>
+        <option value="placed" hidden>Near placed lamp</option>
+        <option value="follow" hidden>Near lamp</option>
+      </select>
+    </div>
+    <div id="lamp-navigation" hidden>
+      <div class="lamp-jog" role="group" aria-label="Move lamp">
+        <button type="button" data-jog="left" aria-label="Move lamp left">←</button>
+        <button type="button" data-jog="forward" aria-label="Move lamp forward">Forward</button>
+        <button type="button" data-jog="back" aria-label="Move lamp back">Back</button>
+        <button type="button" data-jog="right" aria-label="Move lamp right">→</button>
+        <button type="button" data-jog="up" aria-label="Raise lamp">↑</button>
+        <button type="button" data-jog="down" aria-label="Lower lamp">↓</button>
+        <button type="button" id="follow-lamp" aria-pressed="false" hidden>Follow lamp</button>
+        <button type="button" id="place-lamp" aria-pressed="false">Place lamp</button>
+      </div>
+      <p class="lamp-help">Hold a movement button, or choose Place lamp and tap a wall.</p>
+    </div>
+    <fieldset class="light-sources" id="light-sources">
+      <legend>Light sources</legend>
+      <div class="toolbar">
+        <label for="lamp-count">Number of lamps</label>
+        <select id="lamp-count" aria-label="Number of lamps">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
+        </select>
+        <button type="button" id="play-all-lamps">Play all recordings</button>
+        <button type="button" id="pause-all-lamps">Pause all</button>
+        <button type="button" id="restart-all-lamps">Restart all together</button>
+      </div>
+      <div id="lamp-selectors" class="toolbar" role="tablist" aria-label="Select lamp">
+        <button type="button" id="select-lamp-1" data-select-lamp="0" role="tab" aria-selected="true" aria-controls="shaft-controls">Lamp 1</button>
+      </div>
+      <label class="shadow-control"><input type="checkbox" id="lamp-shadows" checked> Wall shadows</label>
+    </fieldset>
+    <div id="stage" data-loading tabindex="0" aria-label="3D cave view. Use W A S D to move the lamp horizontally and Q or E to lower or raise it.">
+      <img class="poster" src="/chauvet-assets/horses-fresco.webp?v=2" alt="Painted walls of the Horses Fresco in the Hillaire Chamber at Chauvet.">
+      <div class="stage-notes">
+        <p class="lamp-help" id="lamp-movement-note" role="status"></p>
+        <p class="lamp-help" id="placement-note" role="status"></p>
+      </div>
+      <button type="button" class="light-marker" id="light-marker" aria-label="Drag lamp. Position sliders are below the scene." hidden><span aria-hidden="true">Lamp</span></button>
+      <div id="lamp-context-menu" role="group" aria-label="Lamp placement" tabindex="-1" hidden>
+        <button type="button" id="bring-lamp-here">Bring lamp here</button>
+        <p id="lamp-context-note" role="status"></p>
+      </div>
+      <button type="button" id="toggle-fullscreen" aria-controls="viewer" hidden>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg>
+        <span>Fullscreen</span>
+      </button>
+      <p id="status" role="status">
+        <svg class="loading-hourglass" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 21h12M7 3v3c0 2.5 3 4.5 5 6-2 1.5-5 3.5-5 6v3m10-18v3c0 2.5-3 4.5-5 6 2 1.5 5 3.5 5 6v3M9 18l3-3 3 3"/></svg>
+        <span id="status-message">Opening the Hillaire Chamber…</span>
+      </p>
+      <noscript><style>#stage #status{display:none!important}</style><p class="no-script">Enable JavaScript to move the lamp.</p></noscript>
+    </div>
+    <fieldset class="lamp-comparison" id="lamp-comparison" hidden>
+      <legend>Compare lamp positions</legend>
+      <div class="toolbar">
+        <button type="button" data-lamp-position aria-pressed="false">Position A · Clear view</button>
+        <button type="button" data-lamp-position aria-pressed="false">Position B · Alternate angle</button>
+        <button type="button" id="alternate-lamp" aria-describedby="alternation-notice">Play alternation</button>
+      </div>
+      <label for="alternation-rate"><span>Alternation speed</span><output id="alternation-rate-value" for="alternation-rate">1 Hz</output></label>
+      <input type="range" id="alternation-rate" min="0.5" max="3" step="0.1" value="1" aria-valuetext="1 cycle per second">
+      <small id="alternation-notice">The presets set lamp position, brightness and flicker strength. One cycle switches from A to B and back. Playback changes the lighting rapidly.</small>
+      <span id="comparison-status" role="status"></span>
+    </fieldset>
+    <h3 class="selected-lamp-heading" id="selected-lamp-heading">Lamp 1 controls</h3>
+    <section id="shaft-controls" role="tabpanel" aria-labelledby="select-lamp-1" hidden>
+      <div>
+        <div class="toolbar recording-tabs" role="tablist" aria-label="Photodiode recordings">
+          <button type="button" id="recording-source-lamp" role="tab" aria-selected="true" aria-controls="flicker-controls" data-recording-source="lamp">Lamp data</button>
+          <button type="button" id="recording-source-fire" role="tab" aria-selected="false" aria-controls="flicker-controls" data-recording-source="fire" tabindex="-1">Fire data</button>
+        </div>
+        <div id="flicker-controls" role="tabpanel" aria-labelledby="recording-source-lamp">
+          <p class="lamp-help" id="fire-help" hidden>These Garden Pilot fire recordings drive the same movable light. Quieter recordings receive more display gain so their flicker stays visible.</p>
+          <div class="toolbar" role="group" aria-label="Lighting and recording">
+            <button type="button" id="survey-light" aria-pressed="false">Survey colours</button>
+            <button type="button" id="steady-light" aria-pressed="true">Steady lamp</button>
+            <button type="button" id="play-light" aria-describedby="flicker-notice" disabled>Play recorded flicker</button>
+            <select id="lamp-recording" aria-label="Lamp recording"></select>
+          </div>
+          <div class="lamp-reading">
+            <label for="lamp-brightness">Lamp brightness</label>
+            <output id="lamp-brightness-value" for="lamp-brightness" aria-live="off">100%</output>
+          </div>
+          <input type="range" id="lamp-brightness" min="0" max="200" step="5" value="100" aria-valuetext="100%">
+          <label for="lamp-time" class="lamp-reading"><span>Recording time <output id="lamp-time-value" aria-live="off"></output></span><span id="lamp-level"></span></label>
+          <input type="range" id="lamp-time" min="0" max="0" step="0.001" value="0" disabled>
+          <div class="lamp-reading">
+            <label for="lamp-flicker-strength">Flicker strength</label>
+            <output id="lamp-flicker-strength-value" for="lamp-flicker-strength" aria-live="off">100%</output>
+          </div>
+          <input type="range" id="lamp-flicker-strength" min="0" max="200" step="5" value="100" aria-valuetext="100%" disabled>
+          <div class="frequency-control">
+            <label for="lamp-frequency"><span id="lamp-frequency-label">Dominant flicker rate</span><output id="lamp-frequency-value">—</output></label>
+            <button type="button" id="recorded-speed" disabled>Recorded speed</button>
+            <input type="range" id="lamp-frequency" min="0.5" max="12" step="0.1" aria-describedby="frequency-help" disabled>
+          </div>
+          <p class="lamp-help" id="frequency-help">The rate describes the strongest flicker rhythm. Lower it to slow the whole recording.</p>
+          <p class="lamp-help" id="flicker-notice">Playback contains rapid changes in light. Use the time slider to inspect a still frame.</p>
+        </div>
+      </div>
+      <div>
+        <p class="lamp-help">Position offsets in model units</p>
+        <div class="lamp-position">
+          <div><label for="lamp-side">Side to side <output></output></label><input type="range" id="lamp-side" data-position min="-0.65" max="0.60" step="0.01" value="0"></div>
+          <div><label for="lamp-height">Height <output></output></label><input type="range" id="lamp-height" data-position min="-0.30" max="0.50" step="0.01" value="0"></div>
+          <div><label for="lamp-depth">Forward / back <output></output></label><input type="range" id="lamp-depth" data-position min="-0.20" max="0.45" step="0.01" value="0"></div>
+        </div>
+        <div class="lamp-actions">
+          <button type="button" id="reset-lamp">Reset lamp position</button>
+        </div>
+        <p class="lamp-help">Drag the lamp. With the cave view focused, use W A S D to move and Q or E to lower or raise it.</p>
+      </div>
+    </section>
+    <p class="view-help">Drag to rotate. Scroll or pinch to zoom. Right-drag or drag with two fingers to pan. Right-click a cave surface and choose Bring lamp here.</p>
+  </section>
+  <div class="notes">
+    <details><summary>Using several lamps</summary>
+      <p>Choose how many lamps to add, then select a numbered lamp to set its recording, brightness, flicker strength and position. Each lamp keeps its own playback time. Play all recordings starts the active lamps from their current times. Restart all together returns them to the start of their recordings. To compare aligned flicker, choose the same recording and Recorded speed for each lamp before restarting.</p>
+      <p>Where their light overlaps, the lamps add illumination. A second lamp can fill a shadow cast by the first. When their flicker rises and falls at different times, the combined light can vary less than either source on its own. Wall shadows can be switched off to compare their contribution. <a href="https://pbr-book.org/4ed/Light_Sources/Point_Lights">Light from point sources</a>.</p>
+      <p>The recordings supply the changing rhythm. Their display gain, the mean light levels and the flame shapes remain illustrative. The viewer limits the largest displayed brightness changes, and the survey textures retain some lighting from the original photographs.</p>
+    </details>
+    <details open><summary>Eight-legged bison · Alcove of the Lions</summary>
+      <p>In the Alcove of the Lions, the bison’s overlapping legs have been interpreted as successive positions in a run. Azéma and Rivère suggested that a lamp or torch moved along the wall could bring out those positions in turn. At the same lamp position and brightness, switch between steady light and recorded flicker and see whether your sense of movement changes. Then compare the two lamp positions. You may find that one leg outline becomes easier to see while another fades. <a href="https://doi.org/10.1017/S0003598X00062785">Azéma and Rivère, figure 2</a>.</p>
+      <p>Chauvet was discovered on 18 December 1994. Radiocarbon dates place the earlier phase of human activity around 37,000–33,500 calendar years ago and a later phase around 31,000–28,000 years ago. The earlier phase is a plausible setting for the eight-legged figure. A running cow in the same alcove has a direct charcoal date. The sampled bison was a different figure in the End Chamber, so the age of this bison remains open. <a href="https://doi.org/10.1073/pnas.1523158113">Chauvet chronology</a> · <a href="https://archeologie.culture.gouv.fr/chauvet/en/glossary/first-radiocarbon-datings-chauvet">Dated figures</a>.</p>
+    </details>
+    <details><summary>Horses Fresco · Hillaire Chamber</summary>
+      <p>Four horse heads rise diagonally across the panel. The overlaps put the facing rhinoceroses first, then the aurochs, then the horses. Charcoal samples date the facing rhinoceroses and give the panel an early chronological anchor. The order of the figures is clearer than the age of each horse. <a href="https://archeologie.culture.gouv.fr/chauvet/en/panel-horses">Panel of the Horses</a> · <a href="https://archeologie.culture.gouv.fr/chauvet/en/glossary/first-radiocarbon-datings-chauvet">Dated figures</a>.</p>
+    </details>
+    <p>The lamp plays the PaleoFlicker photodiode recording. The lighting is illustrative and the model’s physical scale is unverified. <a href="/lascaux/#paleoflicker-poster">Read about the study and recordings</a>.</p>
+    <p>3D model: <a href="https://artsandculture.google.com/asset/fresque-des-chevaux/rQE_FzwjhB5e9Q">Horses Fresco, Grotte Chauvet – UNESCO World Heritage Site, via Google Arts &amp; Culture</a>.</p>
+  </div>
+</main>
+</body>
+</html>
